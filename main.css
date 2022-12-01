@@ -3,18 +3,19 @@
 }
 
 .button-quiz {
-    max-width: 10rem;
+    
     padding: 1rem;
     margin: .3rem;
 }
 .button-container{
+
     align-items: center;
     padding: 1rem;
     margin: 1rem;
 }
 .buttonf-quiz {
     padding: 1rem;
-    margin: .3rem;
+    margin: .2rem;
 }
 button:hover{
     background-color: orange;
@@ -31,8 +32,13 @@ button:hover{
     justify-content: center;
 }
 .fondo{
-    background-image: url("./fondo.jpg");
-    width: 100%;
+    background-image: url("./background.png");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     height: 100vh;
 }
 
@@ -52,7 +58,12 @@ button:hover{
 }
 
 .pregunta{
-    color:rgb(191, 4, 4);
+    color:rgb(0, 0, 0);
     font-size: 2rem;
     font-weight: 600;
+}
+
+img{
+    max-width: 10rem;
+    justify-content: start;
 }

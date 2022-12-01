@@ -1,10 +1,10 @@
 const contenedorMaxim = document.querySelector(".contenedorMaximo");
+contenedorMaxim.classList.add("bg-white");
 
 const countryContainer = document.querySelector(".country-container");
-    countryContainer.classList.add("bg-gradient-secondary");
     countryContainer.classList.add("text-dark");
     countryContainer.classList.add("container");
-    countryContainer.classList.add("d-flex");//estilos de la el contenedor 
+    countryContainer.classList.add("d-flex");//flexibilidad de el contenedor 
     countryContainer.classList.add("justify-content-center");//pone todo en medio
     countryContainer.classList.add("flex-column-reverse");// pone todo en columna 
 
@@ -12,10 +12,7 @@ const buttonContainer = document.querySelector(".button-container");
     buttonContainer.classList.add("d-flex");
     buttonContainer.classList.add("flex-column");
     buttonContainer.classList.add("justify-content-md-center");
-
- var img = document.createElement("img");
-    img.classList.add("img-gameover");
-    img.src = "gameover.jpg"
+    buttonContainer.classList.add("gap-2");
 
 var contadorP = 0; 
 var puntos = 0;
@@ -63,6 +60,7 @@ function search(grupo) {
 function createCardFlags(country) {
     const card = document.createElement("div");
     card.classList.add("country-block");
+    card.classList.add("bg-white");
 
     const flagContainer = document.createElement("div");
     flagContainer.classList.add("img-container");
@@ -92,6 +90,7 @@ function createCardFlags(country) {
 function createCardCapital(country) {
     const card = document.createElement("div");
     card.classList.add("country-block");
+    card.classList.add("bg-white");
     card.setAttribute("id", "carta");
 
     const flagContainer = document.createElement("div");
@@ -122,9 +121,9 @@ function createCardCapital(country) {
 function crearBotonesF(arr, paisS) {
 
     const boton = document.createElement("button");
-    boton.classList.add("button-quiz");
     boton.classList.add("btn");
-    boton.classList.add("btn-primary");
+    boton.classList.add("btn-outline-dark");
+    boton.classList.add("button-quiz");
     boton.textContent = arr.name.common;
     buttonContainer.appendChild(boton);
     boton.addEventListener("click", function() {
@@ -152,11 +151,10 @@ function crearBotonesC(arr,paisS) {
     const boton = document.createElement("button");
     boton.classList.add("button-quiz");
     boton.classList.add("btn");
-    boton.classList.add("btn-primary");
+    boton.classList.add("btn-outline-dark");
     boton.setAttribute("id", "boton");
     boton.textContent = arr.capital;
     buttonContainer.appendChild(boton)
-    boton.setAttribute("id", "boton");
     boton.addEventListener("click", function() {
         if(boton.textContent == paisS.capital)
         {
@@ -168,11 +166,16 @@ function crearBotonesC(arr,paisS) {
             boton.classList.remove("btn-primary");
             boton.classList.add("btn-danger");
        }
+       desactivar();
         console.log(puntos , "Puntos del jugador");
     })
-
-
 } 
+
+
+function desactivar(){
+    document.getElementById("boton").disabled = true;
+}
+
 
 function Funseleccion(select, pais4, pais1, pais2,pais3, paisselect) {
 
@@ -214,7 +217,7 @@ function Funseleccion(select, pais4, pais1, pais2,pais3, paisselect) {
 //funcion para borrar html
             function prueba2(funcion, texto) {
                 contadorP = contadorP +1;
-                contador(contadorP);
+                contador(contadorP,puntos);
                 console.log(contadorP);
                 borrar(funcion, texto);
             }
@@ -227,11 +230,12 @@ function Funseleccion(select, pais4, pais1, pais2,pais3, paisselect) {
                 texto.innerHTML = "";
             }
             
-            function contador (contador){
+            function contador (contador, puntuacion){
                 if (contador ==10){
-                    contenedorMaxim.innerHTML = "";
-                    contenedorMaxim.appendChild(img);
-                    alert("Tu puntuacion es: " + puntos + "   " + "Recarga el navegador para volver a jugar <3");
+                    buttonContainer.innerHTML="";
+                    countryContainer.innerHTML="";
+                    contenedorMaxim.innerHTML=contenedorMaxim.appendChild(createCardFinal(puntuacion));
+                    
                 }
             }
                 //prueba de la funcion shuffle
@@ -253,5 +257,33 @@ function Funseleccion(select, pais4, pais1, pais2,pais3, paisselect) {
               }
               
              
+              function createCardFinal() {
+
+                const card = document.createElement("div");
+                card.classList.add("final-block");
+                card.classList.add("bg-white");
+
+                const imagen = document.createElement("img");
+                imagen.src="winners.svg"
+            
+                const pregunta = document.createElement("h2");
+                pregunta.classList.add("pregunta");
+                pregunta.textContent = "Results"
+                pregunta.classList.add("d-flex");
+                pregunta.classList.add("justify-content-center")
+
+                const you = document.createElement("p");
+                you.classList.add("pregunta");
+                you.textContent = "You got " + puntos + " correct";
+                you.classList.add("d-flex");
+                you.classList.add("justify-content-center")
+            
+                countryContainer.appendChild(pregunta);
+                countryContainer.appendChild(you);
+                countryContainer.appendChild(imagen);
+            
+            }
+
+
 //llama la region 
 fetchCountries("europe");
