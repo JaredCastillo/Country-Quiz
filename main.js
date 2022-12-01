@@ -13,6 +13,10 @@ const buttonContainer = document.querySelector(".button-container");
     buttonContainer.classList.add("flex-column");
     buttonContainer.classList.add("justify-content-md-center");
 
+ var img = document.createElement("img");
+    img.classList.add("img-gameover");
+    img.src = "gameover.jpg"
+
 var contadorP = 0; 
 var puntos = 0;
 
@@ -26,43 +30,33 @@ function fetchCountries(region) {
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
-//funcion para randomizar pequeño
-  function getRandomButton(max) {
-    return Math.floor(Math.random() * max);
-  }
 
 //funcion que selecciona el pais 
 function search(grupo) {
 
     const decidir = getRandomInt(2);
-    console.log(decidir);
-
-    const random = getRandomInt(53);
-
-    const paisran1 = getRandomInt(40);
-
-    const paisran2= getRandomInt(10);
-    const paisran3 = getRandomInt(20);
-
-
-
-    const seleccion = grupo[random];
     
+//guardan el id de los paises seleccionados 
+    const random = getRandomInt(53);
+    const paisran1 = getRandomInt(40);
+    const paisran2= getRandomInt(40);
+    const paisran3 = getRandomInt(40);
+
+
+    //guarda a los paises seleccionados 
+    const seleccion = grupo[random];
     const paisfalso1 = grupo[paisran1];
     const paisfalso2 = grupo[paisran2];
     const paisfalso3 = grupo[paisran3];
 
-    comparacion(seleccion, paisfalso1, paisfalso2, paisfalso3);
-    comparacion(paisfalso1, seleccion, paisfalso2, paisfalso3);
-    comparacion(paisfalso2, seleccion, paisfalso1 , paisfalso3);
-    comparacion(paisfalso3, seleccion, paisfalso1, paisfalso2 );
+    var arreglo = [seleccion, paisfalso1, paisfalso2 , paisfalso3];
 
-    console.log(seleccion);
+    var arr = [seleccion, paisfalso1, paisfalso2, paisfalso3];
+    arr = shuffle(arr);
+    console.log(arr);
 
-    Funseleccion(decidir, seleccion, paisfalso1, paisfalso2, paisfalso3);
-
-    }
-
+    Funseleccion(decidir ,arr[0], arr[1], arr[2], arr[3], seleccion);
+}
 
 
 //funcion que crea la carta y pregunta 
@@ -82,7 +76,7 @@ function createCardFlags(country) {
 
     const pregunta = document.createElement("h2");
     pregunta.classList.add("pregunta");
-    pregunta.textContent = "This flags is from the country of... :";
+    pregunta.textContent = "This flag is from the country of... :";
     pregunta.classList.add("d-flex");
     pregunta.classList.add("justify-content-center")
 
@@ -114,7 +108,7 @@ function createCardCapital(country) {
     pregunta.classList.add("pregunta");
     pregunta.textContent = "The capital of " + country.name.common + " is: ";
     pregunta.classList.add("d-flex");
-    pregunta.classList.add("justify-content-center")
+    pregunta.classList.add("justify-content-center");
 
     countryContainer.appendChild(flagContainer);
     countryContainer.appendChild(pregunta);
@@ -125,7 +119,7 @@ function createCardCapital(country) {
 }
 
 //funcion que crea el boton correcto de flags 
-function crearBotonesF(arr) {
+function crearBotonesF(arr, paisS) {
 
     const boton = document.createElement("button");
     boton.classList.add("button-quiz");
@@ -134,85 +128,70 @@ function crearBotonesF(arr) {
     boton.textContent = arr.name.common;
     buttonContainer.appendChild(boton);
     boton.addEventListener("click", function() {
-        boton.classList.remove("btn-primary");
-        boton.classList.add("btn-success");
-        puntos = puntos +1;
+        
+        if(boton.textContent == paisS.name.common)
+        {
+             boton.classList.remove("btn-primary");
+            boton.classList.add("btn-success");
+             puntos = puntos +1 ;
+        }
+       else{
+            boton.classList.remove("btn-primary");
+            boton.classList.add("btn-danger");
+       }
+      
         console.log(puntos, "Puntos del jugador");
     })
 
 } 
 
-//Crea botones incorrectos de flags
-function crearBotonesFalsos(countryf) {
-    const botonf = document.createElement("button");
-    botonf.classList.add("buttonf-quiz");
-    botonf.classList.add("btn");
-    botonf.classList.add("btn-primary");
-    botonf.textContent = countryf.name.common;
-    buttonContainer.appendChild(botonf)
-    botonf.addEventListener("click", function() {
-        botonf.classList.remove("btn-primary");
-        botonf.classList.add("btn-danger");
-        botonf.classList.add("disabled")
-        console.log(puntos , "Boton equivocado");
-
-    })
-    
-}
 
 //Crea Botnes de Capital
-function crearBotonesC(arr) {
+function crearBotonesC(arr,paisS) {
 
     const boton = document.createElement("button");
     boton.classList.add("button-quiz");
     boton.classList.add("btn");
     boton.classList.add("btn-primary");
+    boton.setAttribute("id", "boton");
     boton.textContent = arr.capital;
     buttonContainer.appendChild(boton)
     boton.setAttribute("id", "boton");
     boton.addEventListener("click", function() {
-        boton.classList.remove("btn-primary");
-        boton.classList.add("btn-success");
-        puntos = puntos +1;
+        if(boton.textContent == paisS.capital)
+        {
+             boton.classList.remove("btn-primary");
+            boton.classList.add("btn-success");
+             puntos = puntos +1 ;
+        }
+       else{
+            boton.classList.remove("btn-primary");
+            boton.classList.add("btn-danger");
+       }
         console.log(puntos , "Puntos del jugador");
     })
 
 
 } 
 
-//funcion que compara numeros aleatorios
-function comparacion(comp1, comp2, comp3, comp4) {
-    if (comp1 = comp2) {
-        comp2 = getRandomInt(40);
-        return comp2;
-    }
-    else if (comp1 = comp3) {
-        comp3 = getRandomInt(40);
-        return comp3;
-    }
-    else if (comp1 = comp4) {
-        comp4 = getRandomInt(40);
-        return comp4;
-    }
-    
-}
-
-function Funseleccion(select, paisP, pais1, pais2,pais3 ) {
+function Funseleccion(select, pais4, pais1, pais2,pais3, paisselect) {
 
     if (select=="0"){
 
-        createCardCapital(paisP);
-        crearBotonesC(paisP);
-        crearBotonesFalsos(pais1);
-        crearBotonesFalsos(pais2);
-        crearBotonesFalsos(pais3);
+        createCardCapital(paisselect);
+       
+        
+        crearBotonesC(pais1, paisselect);
+        crearBotonesC(pais2, paisselect);
+        crearBotonesC(pais3, paisselect);
+        crearBotonesC(pais4, paisselect);
         }
         else {
-            createCardFlags(paisP);
-            crearBotonesF(paisP);
-            crearBotonesFalsos(pais1);
-            crearBotonesFalsos(pais2);
-            crearBotonesFalsos(pais3);
+            createCardFlags(paisselect);
+            crearBotonesF(pais1, paisselect);
+            crearBotonesF(pais2, paisselect);
+            crearBotonesF(pais3, paisselect);
+            crearBotonesF(pais4, paisselect);
             }
 
         }
@@ -232,7 +211,7 @@ function Funseleccion(select, paisP, pais1, pais2,pais3 ) {
             } ) 
                 
             }
-//funcion para borrar html y traer de nuevo a fetch
+//funcion para borrar html
             function prueba2(funcion, texto) {
                 contadorP = contadorP +1;
                 contador(contadorP);
@@ -249,12 +228,30 @@ function Funseleccion(select, paisP, pais1, pais2,pais3 ) {
             }
             
             function contador (contador){
-                if (contador ==11){
-                    contenedorMaxim.innerHTML = "GameOver";
-                    contenedorMaxim.innerHTML = "Estos son tus puntos : " + puntos;
-
+                if (contador ==10){
+                    contenedorMaxim.innerHTML = "";
+                    contenedorMaxim.appendChild(img);
+                    alert("Tu puntuacion es: " + puntos + "   " + "Recarga el navegador para volver a jugar <3");
                 }
             }
-        
+                //prueba de la funcion shuffle
+            function shuffle(array) {
+                var currentIndex = array.length, temporaryValue, randomIndex;
+              
+              
+                while (0 !== currentIndex) {
+              
+                  randomIndex = Math.floor(Math.random() * currentIndex);
+                  currentIndex -= 1;
+              
+                  temporaryValue = array[currentIndex];
+                  array[currentIndex] = array[randomIndex];
+                  array[randomIndex] = temporaryValue;
+                }
+              
+                return array;
+              }
+              
+             
 //llama la region 
 fetchCountries("europe");
