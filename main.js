@@ -11,8 +11,10 @@ const countryContainer = document.querySelector(".country-container");
 const buttonContainer = document.querySelector(".button-container");
     buttonContainer.classList.add("d-flex");
     buttonContainer.classList.add("flex-column");
+    buttonContainer.setAttribute("id", "demo");
     buttonContainer.classList.add("justify-content-md-center");
     buttonContainer.classList.add("gap-2");
+
 
 var contadorP = 0; 
 var puntos = 0;
@@ -90,7 +92,6 @@ function createCardFlags(country) {
 function createCardCapital(country) {
     const card = document.createElement("div");
     card.classList.add("country-block");
-    card.classList.add("bg-white");
     card.setAttribute("id", "carta");
 
     const flagContainer = document.createElement("div");
@@ -108,7 +109,7 @@ function createCardCapital(country) {
     pregunta.textContent = "The capital of " + country.name.common + " is: ";
     pregunta.classList.add("d-flex");
     pregunta.classList.add("justify-content-center");
-
+    
     countryContainer.appendChild(flagContainer);
     countryContainer.appendChild(pregunta);
     BotonNext(flagContainer, pregunta);
@@ -127,18 +128,21 @@ function crearBotonesF(arr, paisS) {
     boton.textContent = arr.name.common;
     buttonContainer.appendChild(boton);
     boton.addEventListener("click", function() {
-        
+
         if(boton.textContent == paisS.name.common)
         {
              boton.classList.remove("btn-primary");
             boton.classList.add("btn-success");
              puntos = puntos +1 ;
+             console.log(puntos + "puntos prueba")
+             
         }
        else{
             boton.classList.remove("btn-primary");
             boton.classList.add("btn-danger");
+           
        }
-      
+       
         console.log(puntos, "Puntos del jugador");
     })
 
@@ -149,32 +153,31 @@ function crearBotonesF(arr, paisS) {
 function crearBotonesC(arr,paisS) {
 
     const boton = document.createElement("button");
-    boton.classList.add("button-quiz");
+    boton.classList.add("button-quiz"); 
     boton.classList.add("btn");
     boton.classList.add("btn-outline-dark");
-    boton.setAttribute("id", "boton");
     boton.textContent = arr.capital;
     buttonContainer.appendChild(boton)
     boton.addEventListener("click", function() {
+
         if(boton.textContent == paisS.capital)
         {
-             boton.classList.remove("btn-primary");
+             
             boton.classList.add("btn-success");
              puntos = puntos +1 ;
+             console.log(puntos + "puntos prueba")
         }
        else{
-            boton.classList.remove("btn-primary");
+           
             boton.classList.add("btn-danger");
        }
-       desactivar();
+       
         console.log(puntos , "Puntos del jugador");
     })
 } 
 
+//desactiva botones o eso quiero que haga
 
-function desactivar(){
-    document.getElementById("boton").disabled = true;
-}
 
 
 function Funseleccion(select, pais4, pais1, pais2,pais3, paisselect) {
@@ -188,6 +191,21 @@ function Funseleccion(select, pais4, pais1, pais2,pais3, paisselect) {
         crearBotonesC(pais2, paisselect);
         crearBotonesC(pais3, paisselect);
         crearBotonesC(pais4, paisselect);
+
+        function comparar(paisA){
+        if(paisA.textContent !== paisselect)
+        {
+           htmlelements.forEach(elemento => elemento.classList.remove("btn-outline-dark"));
+           elemento => elemento.classList.add("btn-success");
+        }}
+
+        const htmlelements = document.querySelectorAll(".button-quiz");
+             buttonContainer.addEventListener("click", function(){
+             htmlelements.forEach(elemento =>  elemento.classList.add("disabled"));
+             htmlelements.forEach(elemento => comparar(elemento));
+             
+        })
+
         }
         else {
             createCardFlags(paisselect);
@@ -195,8 +213,21 @@ function Funseleccion(select, pais4, pais1, pais2,pais3, paisselect) {
             crearBotonesF(pais2, paisselect);
             crearBotonesF(pais3, paisselect);
             crearBotonesF(pais4, paisselect);
-            }
 
+            function comparar(paisA){
+                if(paisA.textContent !==paisselect)
+                {
+                   htmlelements2.forEach(elemento => elemento.classList.remove("btn-outline-dark"));
+                   elemento => elemento.classList.add("btn-succes");
+                }}
+
+
+            const htmlelements2 = document.querySelectorAll(".button-quiz");
+                 buttonContainer.addEventListener("click", function(){
+                 htmlelements2.forEach(elemento => elemento.classList.add("disabled"));
+             htmlelements2.forEach(elemento => comparar(elemento));
+                })
+            }
         }
 
 //boton siguiente 
